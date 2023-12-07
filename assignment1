@@ -1,0 +1,109 @@
+1.class Rover:
+    # Class attribute for Rover Geometry
+    geometry = {'length': 2, 'width': 1, 'height': 1}
+
+    def __init__(self, swarm_id, rover_id, location):
+        # Instance attributes
+        self.swarm_id = swarm_id
+        self.rover_id = rover_id
+        self.location = location
+
+    def print_rover_info(self):
+        print(f"Rover ID: {self.rover_id}, Swarm ID: {self.swarm_id}")
+        print(f"Location: {self.location}")
+        print(f"Rover Geometry (l, w, h): {self.geometry['length']}, {self.geometry['width']}, {self.geometry['height']}")
+
+rover1 = Rover(swarm_id="S1", rover_id="R1", location=(0, 0, 0))
+rover2 = Rover(swarm_id="S2", rover_id="R2", location=(1, 1, 0))
+
+rover1.print_rover_info()
+print("\n")
+rover2.print_rover_info()
+
+
+
+3.class DaughterRover :
+    # Override class attribute for Daughter Rover Geometry (half the size of Rover)
+    geometry = {'length': 1, 'width': 0.5, 'height': 0.5}
+
+    def __init__(self, swarm_id, rover_id, location):
+        # Call the constructor of the parent class (Rover)
+        super().__init__(swarm_id, rover_id, location)
+
+    # Override the move method for Daughter Rover
+    def move(self, distance):
+        # Daughter Rover can only move half the distance
+        half_distance = distance / 2
+        new_location = (
+            self.location[0] + half_distance,
+            self.location[1] + half_distance,
+            self.location[2]
+        )
+        self.location = new_location
+        print(f"Daughter Rover moved to {self.location}")
+
+
+# Example usage:
+rover1 = Rover(swarm_id="S1", rover_id="R1", location=(0, 0, 0))
+daughter_rover1 = DaughterRover(swarm_id="S1", rover_id="DR1", location=(0, 0, 0))
+
+# Print information before moving
+print("Before moving:")
+rover1.print_rover_info()
+daughter_rover1.print_rover_info()
+
+# Move both rovers
+rover1.move(2)
+daughter_rover1.move(2)
+
+# Print information after moving
+print("\nAfter moving:")
+rover1.print_rover_info()
+daughter_rover1.print_rover_info()
+
+
+2.class Rover:
+    geometry = {'length': 2, 'width': 1, 'height': 1}
+
+    def __init__(self, swarm_id, rover_id, location):
+        self.swarm_id = swarm_id
+        self.rover_id = rover_id
+        self.location = location
+
+    def print_rover_info(self):
+        print(f"Rover ID: {self.rover_id}, Swarm ID: {self.swarm_id}")
+        print(f"Location: {self.location}")
+        print(f"Rover Geometry (l, w, h): {self.geometry['length']}, {self.geometry['width']}, {self.geometry['height']}")
+
+    def move(self, distance):
+        new_location = (
+            self.location[0] + distance,
+            self.location[1] + distance,
+            self.location[2]
+        )
+        self.location = new_location
+        print(f"Rover moved to {self.location}")
+
+    def receive_message(self, message_swarm_id, message_rover_id, distance_to_move):
+        if self.swarm_id == message_swarm_id and self.rover_id == message_rover_id:
+            print(f"Message received for Rover ID {self.rover_id} in Swarm ID {self.swarm_id}.")
+            self.move(distance_to_move)
+        else:
+            print(f"Message not for this Rover (ID {self.rover_id}, Swarm {self.swarm_id}). Ignore.")
+
+# Example usage:
+rover1 = Rover(swarm_id="S1", rover_id="R1", location=(0, 0, 0))
+
+# Print information before receiving a message
+print("Before receiving a message:")
+rover1.print_rover_info()
+
+# Receive a message for the rover
+rover1.receive_message(message_swarm_id="S1", message_rover_id="R1", distance_to_move=3)
+
+# Print information after receiving a message
+print("\nAfter receiving a message:")
+rover1.print_rover_info()
+
+
+
